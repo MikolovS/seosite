@@ -1,0 +1,73 @@
+version: '3'
+services:
+
+  # application (code)
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /app
+    volumes:
+      - ${PROJECT_DIR}:/app
+    networks:
+      - backend
+    environment:
+      - DB_PORT=5432
+      - DB_HOST=database
+      - RHOST=redis
+
+  # http server
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    working_dir: /app
+    networks:
+      - backend
+#    volumes_from:
+#      - app
+    ports:
+      - 777:80
+
+  # database
+  database:
+    image: postgres:10.1
+    networks:
+      - backend
+    environment:
+      - POSTGRES_DB=seocms
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 54327:5432
+
+  # adminer
+  adminer:
+    image: adminer
+    networks:
+      - backend
+    ports:
+      - 7777:8080
+
+  redis:
+    image: redis
+    hostname: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_EXTRA_FLAGS=--maxmemory 100mb
+    ports:
+      - 6377:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - backend
+
+  cron:
+    build:
+      context: ./
+      dockerfile: cron.dockerfile
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: "bridge"
