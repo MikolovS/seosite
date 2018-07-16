@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
  */
 class SetSiteConfigs
 {
+	/**
+	 * @var ConfigService
+	 */
 	private $configService;
 
 	/**
@@ -25,13 +28,11 @@ class SetSiteConfigs
 	}
 
 	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @param  \Closure                 $next
-	 * @return Request
+	 * @param Request $request
+	 * @param Closure $next
+	 * @return mixed
 	 */
-	public function handle (Request $request, Closure $next) : Request
+	public function handle (Request $request, Closure $next)
 	{
 		$this->setConfigs($request);
 
