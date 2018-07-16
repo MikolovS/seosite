@@ -4,13 +4,14 @@ declare( strict_types = 1 );
 namespace App\Services\Config\lib\Classes;
 
 use App\Services\Config\lib\Exceptions\GetConfigException;
+use App\Services\Config\lib\Interfaces\ConfigGetter;
 use Illuminate\Support\Collection;
 
 /**
  * Class GetConfigs
  * @package App\Services\Config\lib
  */
-class GetConfigs
+class GetConfigs implements ConfigGetter
 {
 	/**
 	 * @return Collection
@@ -27,17 +28,19 @@ class GetConfigs
 	 */
 	public function getDbConfigByDomain (string $domain) : array
 	{
-		$dbConfigs = $this->getSitesDbConfigs();
+		return \Cache::rememberForever($domain . '_db_configs', function () use ($domain) {
+			$dbConfigs = $this->getSitesDbConfigs();
 
-		if ($dbConfigs->isEmpty())
-			throw new GetConfigException('No configs found');
+			if ($dbConfigs->isEmpty())
+				throw new GetConfigException('No configs found');
 
-		$dbConfigs = $dbConfigs->get($domain);
+			$dbConfigs = $dbConfigs->get($domain);
 
-		if ($dbConfigs === null)
-			throw new GetConfigException('No configs for domain ' . $domain);
+			if ($dbConfigs === null)
+				throw new GetConfigException('No configs for domain ' . $domain);
 
-		return $dbConfigs;
+			return $dbConfigs;
+		});
 	}
 
 	/**
@@ -54,18 +57,20 @@ class GetConfigs
 	 */
 	public function getSiteLanguage (string $domain) : string
 	{
-		$sitesLangConfigs = $this->getLanguagesConfigs();
+		return \Cache::rememberForever($domain . '_language', function () use ($domain) {
+			$sitesLangConfigs = $this->getLanguagesConfigs();
 
-		if ($sitesLangConfigs->isEmpty())
-			throw new GetConfigException('No language configs found');
+			if ($sitesLangConfigs->isEmpty())
+				throw new GetConfigException('No language configs found');
 
-		$language = $sitesLangConfigs->filter(function ($config) use ($domain) {
-			return \in_array($domain, $config, true);
-		})->keys()->first();
+			$language = $sitesLangConfigs->filter(function ($config) use ($domain) {
+				return \in_array($domain, $config, true);
+			})->keys()->first();
 
-		if ($language === null)
-			throw new GetConfigException('No language for domain ' . $domain);
+			if ($language === null)
+				throw new GetConfigException('No language for domain ' . $domain);
 
-		return $language;
+			return $language;
+		});
 	}
 }
