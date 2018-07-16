@@ -3,6 +3,7 @@ declare( strict_types = 1 );
 
 namespace App\Services\Config;
 
+use App\Services\Config\lib\Classes\DBConfigs;
 use App\Services\Config\lib\Classes\GetConfigs;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use Illuminate\Http\Request;
@@ -16,12 +17,12 @@ class ConfigService
 	/**
 	 * @var string
 	 */
-	private $siteDomain;
+	protected $siteDomain;
 
 	/**
 	 * @var ConfigGetter
 	 */
-	private $configGetter;
+	protected $configGetter;
 
 	/**
 	 * SiteConfigService constructor.
@@ -49,11 +50,11 @@ class ConfigService
 	}
 
 	/**
-	 * @param array $siteConfigs
+	 * @param DBConfigs $siteConfigs
 	 */
-	private function setDbConnection (array $siteConfigs) : void
+	private function setDbConnection (DBConfigs $siteConfigs) : void
 	{
-		\Config::set('database.connections.site', $siteConfigs);
+		\Config::set('database.connections.site', $siteConfigs->toArray());
 	}
 
 	/**
@@ -70,6 +71,7 @@ class ConfigService
 	public function applySiteConfigs (string $domainName) : void
 	{
 		$dbConfigs = $this->configGetter->getDbConfigByDomain($domainName);
+
 		$this->setDbConnection($dbConfigs);
 
 		$language = $this->configGetter->getSiteLanguage($domainName);

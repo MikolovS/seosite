@@ -14,6 +14,20 @@ use Illuminate\Support\Collection;
 class GetConfigs implements ConfigGetter
 {
 	/**
+	 * @var DBConfigsMapper
+	 */
+	protected $dbConfigMapper;
+
+	/**
+	 * GetConfigs constructor.
+	 * @param DBConfigsMapper $dbConfigMapper
+	 */
+	public function __construct (DBConfigsMapper $dbConfigMapper)
+	{
+		$this->dbConfigMapper = $dbConfigMapper;
+	}
+
+	/**
 	 * @return Collection
 	 */
 	private function getSitesDbConfigs () : Collection
@@ -24,9 +38,9 @@ class GetConfigs implements ConfigGetter
 	/**
 	 * @param string $domain
 	 * @throws \RuntimeException
-	 * @return array
+	 * @return DBConfigs
 	 */
-	public function getDbConfigByDomain (string $domain) : array
+	public function getDbConfigByDomain (string $domain) : DBConfigs
 	{
 		return \Cache::rememberForever($domain . '_db_configs', function () use ($domain) {
 			$dbConfigs = $this->getSitesDbConfigs();
@@ -39,7 +53,7 @@ class GetConfigs implements ConfigGetter
 			if ($dbConfigs === null)
 				throw new GetConfigException('No configs for domain ' . $domain);
 
-			return $dbConfigs;
+			return $this->dbConfigMapper->map($dbConfigs);
 		});
 	}
 
@@ -65,7 +79,9 @@ class GetConfigs implements ConfigGetter
 
 			$language = $sitesLangConfigs->filter(function ($config) use ($domain) {
 				return \in_array($domain, $config, true);
-			})->keys()->first();
+			})
+			                             ->keys()
+			                             ->first();
 
 			if ($language === null)
 				throw new GetConfigException('No language for domain ' . $domain);
