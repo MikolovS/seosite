@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 namespace App\Services\Config;
 
 use App\Services\Config\lib\Classes\GetConfigs;
+use App\Services\Config\lib\Interfaces\ConfigGetter;
 use Illuminate\Http\Request;
 
 /**
@@ -18,7 +19,7 @@ class ConfigService
 	private $siteDomain;
 
 	/**
-	 * @var GetConfigs
+	 * @var ConfigGetter
 	 */
 	private $configGetter;
 
