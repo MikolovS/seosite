@@ -13,6 +13,6 @@ if $ENV_DEV; then
 
     docker exec $CONTAINER chmod 777 -R storage/ \
     && docker exec $CONTAINER php artisan config:clear \
-    && docker exec $CONTAINER php artisan key:generate \
-    && docker exec $CONTAINER php artisan migrate
+    && docker exec $CONTAINER php artisan key:generate
+    #&& docker exec $CONTAINER php artisan migrate
 fi
