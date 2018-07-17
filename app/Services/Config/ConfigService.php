@@ -3,9 +3,9 @@ declare( strict_types = 1 );
 
 namespace App\Services\Config;
 
-use App\Services\Config\lib\Classes\DBConfigs;
-use App\Services\Config\lib\Classes\GetConfigs;
+use App\Services\Config\lib\Classes\GetLocalConfigs;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
+use App\Services\Config\lib\Items\DBConfigs;
 use Illuminate\Http\Request;
 
 /**
@@ -26,9 +26,9 @@ class ConfigService
 
 	/**
 	 * SiteConfigService constructor.
-	 * @param GetConfigs $getConfigs
+	 * @param GetLocalConfigs $getConfigs
 	 */
-	public function __construct (GetConfigs $getConfigs)
+	public function __construct (GetLocalConfigs $getConfigs)
 	{
 		$this->configGetter = $getConfigs;
 	}

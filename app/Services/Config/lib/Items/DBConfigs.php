@@ -1,7 +1,7 @@
 <?php
 declare( strict_types = 1 );
 
-namespace App\Services\Config\lib\Classes;
+namespace App\Services\Config\lib\Items;
 
 use App\Library\Interfaces\Item;
 
@@ -11,6 +11,11 @@ use App\Library\Interfaces\Item;
  */
 class DBConfigs implements Item
 {
+	/**
+	 * @var string
+	 */
+	protected $connectionName;
+
 	/**
 	 * @var string
 	 */
@@ -55,6 +60,22 @@ class DBConfigs implements Item
 	 * @var string
 	 */
 	protected $engine;
+
+	/**
+	 * @return string
+	 */
+	public function getConnectionName () : string
+	{
+		return $this->connectionName;
+	}
+
+	/**
+	 * @param string $connectionName
+	 */
+	public function setConnectionName (string $connectionName) : void
+	{
+		$this->connectionName = $connectionName;
+	}
 
 	/**
 	 * @return string

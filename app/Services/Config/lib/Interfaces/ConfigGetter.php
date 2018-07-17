@@ -3,7 +3,7 @@ declare( strict_types = 1 );
 
 namespace App\Services\Config\lib\Interfaces;
 
-use App\Services\Config\lib\Classes\DBConfigs;
+use App\Services\Config\lib\Items\DBConfigs;
 
 /**
  * Interface ConfigGetter

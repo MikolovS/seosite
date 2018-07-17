@@ -5,13 +5,15 @@ namespace App\Services\Config\lib\Classes;
 
 use App\Services\Config\lib\Exceptions\GetConfigException;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
+use App\Services\Config\lib\Items\DBConfigs;
+use App\Services\Config\lib\Mappers\DBConfigsMapper;
 use Illuminate\Support\Collection;
 
 /**
  * Class GetConfigs
  * @package App\Services\Config\lib
  */
-class GetConfigs implements ConfigGetter
+class GetLocalConfigs implements ConfigGetter
 {
 	/**
 	 * @var DBConfigsMapper
