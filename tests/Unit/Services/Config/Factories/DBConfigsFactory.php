@@ -35,7 +35,6 @@ class DBConfigsFactory extends AbstractFactory
 	public function produce () : DBConfigs
 	{
 		$configsArray = [
-			'connectionName' => convertDomain($this->faker->domainName),
 			'driver'         => $this->faker->domainWord,
 			'host'           => (string) $this->faker->ipv4,
 			'port'           => (string) $this->faker->randomDigit,

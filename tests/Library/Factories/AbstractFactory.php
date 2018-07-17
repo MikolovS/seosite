@@ -37,10 +37,11 @@ abstract class AbstractFactory
 	abstract public function produce ();
 
 	/**
+	 * @param null $requiredAttribute
 	 * @return AbstractFactory
 	 */
-	public static function make () : self
+	public static function make ($requiredAttribute = null) : self
 	{
-		return new static();
+		return new static($requiredAttribute);
 	}
 }

@@ -14,11 +14,6 @@ class DBConfigs implements Item
 	/**
 	 * @var string
 	 */
-	protected $connectionName;
-
-	/**
-	 * @var string
-	 */
 	protected $driver;
 	/**
 	 * @var string
@@ -60,22 +55,6 @@ class DBConfigs implements Item
 	 * @var string
 	 */
 	protected $engine;
-
-	/**
-	 * @return string
-	 */
-	public function getConnectionName () : string
-	{
-		return $this->connectionName;
-	}
-
-	/**
-	 * @param string $connectionName
-	 */
-	public function setConnectionName (string $connectionName) : void
-	{
-		$this->connectionName = $connectionName;
-	}
 
 	/**
 	 * @return string

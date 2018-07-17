@@ -23,10 +23,9 @@ class LanguagesFactory extends AbstractFactory
 	];
 
 	/**
-	 * @param $domain
 	 * @return array|mixed
 	 */
-	public function produce ($domain = null)
+	public function produce ()
 	{
 		$count = random_int(1, \count(self::$languages));
 
@@ -40,6 +39,11 @@ class LanguagesFactory extends AbstractFactory
 
 		foreach ($languages as $language) {
 			$langArray[ $language ] = $this->generateDomainsArray();
+		}
+
+		if ($this->requiredAttribute) {
+			$language                 = array_rand($langArray, 1);
+			$langArray[ $language ][] = $this->requiredAttribute;
 		}
 
 		return $langArray;

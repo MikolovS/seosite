@@ -21,7 +21,6 @@ class DBConfigsMapper implements Mapper
 	{
 		$dbConfigs = new DBConfigs();
 
-		$dbConfigs->setConnectionName($configs[ 'connectionName' ] ?? '');
 		$dbConfigs->setDriver($configs[ 'driver' ]);
 		$dbConfigs->setHost($configs[ 'host' ]);
 		$dbConfigs->setPort($configs[ 'port' ]);

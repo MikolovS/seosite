@@ -4,10 +4,11 @@ declare( strict_types = 1 );
 namespace Tests\Unit\Services\Config\Classes;
 
 use App\Services\Config\lib\Classes\GetLocalConfigs;
-use App\Services\Config\lib\Items\DBConfigs;
+use Faker\Factory;
 use Illuminate\Config\Repository;
 use Tests\TestCase;
 use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
+use Tests\Unit\Services\Config\Factories\LanguagesFactory;
 
 /**
  * Class GetLocalConfigsTest
@@ -16,37 +17,13 @@ use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
 class GetLocalConfigsTest extends TestCase
 {
 	/**
-	 * @var DBConfigs
-	 */
-	protected static $dbConfig;
-
-	/**
-	 * @var GetLocalConfigs
-	 */
-	protected static $configGetter;
-
-	/**
 	 *
 	 */
-	public static function setUpBeforeClass ()
+	private function getDomain () : string
 	{
-		static::$dbConfig = DBConfigsFactory::make()
-		                                    ->produce();
+		$domain = Factory::create()->domainName;
 
-		$dbConfigs = static::$dbConfig;
-
-		$domainName = $dbConfigs->getConnectionName();
-
-		$configs = (new self())->createMock(Repository::class);
-
-		$configs->method('get')
-		        ->with('database.connections')
-		        ->willReturn([
-			        $domainName => $dbConfigs->toArray(),
-		        ]);
-
-		/** @noinspection PhpParamsInspection */
-		static::$configGetter = new GetLocalConfigs($configs);
+		return convertDomain($domain);
 	}
 
 	/**
@@ -54,14 +31,52 @@ class GetLocalConfigsTest extends TestCase
 	 */
 	public function testGetDbConfigByDomain () : void
 	{
-		$dbConfigs = static::$dbConfig;
+		$domain = $this->getDomain();
 
-		$domainName = $dbConfigs->getConnectionName();
+		$dbConfigs = DBConfigsFactory::make()
+		                             ->produce();
 
-		$retriedConfigs = static::$configGetter->getDbConfigByDomain($domainName);
+		$configs = $this->createMock(Repository::class);
 
-		$retriedConfigs->setConnectionName($domainName);
+		$configs->method('get')
+		        ->with('database.connections')
+		        ->willReturn([
+			        $domain => $dbConfigs->toArray(),
+		        ]);
+
+		/** @noinspection PhpParamsInspection */
+		$retriedConfigs = ( new GetLocalConfigs($configs) )->getDbConfigByDomain($domain);
 
 		$this->assertEquals($retriedConfigs, $dbConfigs);
+	}
+
+	/**
+	 *
+	 */
+	public function testGetSiteLanguage () : void
+	{
+		$domain = $this->getDomain();
+
+		$languages = LanguagesFactory::make($domain)
+		                             ->produce();
+
+		$domainLanguage = collect($languages)->filter(function ($domains) use ($domain) {
+			foreach ($domains as $domainItem) {
+				if ($domainItem === $domain)
+					return true;
+			}
+			return false;
+		})->keys()->first();
+
+		$configs = $this->createMock(Repository::class);
+
+		$configs->method('get')
+		        ->with('language.sites_languages')
+		        ->willReturn($languages);
+
+		/** @noinspection PhpParamsInspection */
+		$retrievedLanguage = ( new GetLocalConfigs($configs) )->getSiteLanguage($domain);
+
+		$this->assertEquals($retrievedLanguage, $domainLanguage);
 	}
 }
