@@ -27,7 +27,7 @@ class GetLocalConfigsTest extends TestCase
 	}
 
 	/**
-	 *
+	 * @group GetLocalConfigs
 	 */
 	public function testGetDbConfigByDomain () : void
 	{
@@ -51,7 +51,7 @@ class GetLocalConfigsTest extends TestCase
 	}
 
 	/**
-	 *
+	 * @group GetLocalConfigs
 	 */
 	public function testGetSiteLanguage () : void
 	{
