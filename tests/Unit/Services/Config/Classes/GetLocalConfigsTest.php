@@ -3,7 +3,9 @@ declare( strict_types = 1 );
 
 namespace Tests\Unit\Services\Config\Classes;
 
+use App\Services\Config\lib\Classes\GetLocalConfigs;
 use App\Services\Config\lib\Items\DBConfigs;
+use Illuminate\Config\Repository;
 use Tests\TestCase;
 use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
 
@@ -13,27 +15,53 @@ use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
  */
 class GetLocalConfigsTest extends TestCase
 {
-	protected $dbConfig;
+	/**
+	 * @var DBConfigs
+	 */
+	protected static $dbConfig;
 
+	/**
+	 * @var GetLocalConfigs
+	 */
+	protected static $configGetter;
+
+	/**
+	 *
+	 */
 	public static function setUpBeforeClass ()
 	{
-		$self = new self();
+		static::$dbConfig = DBConfigsFactory::make()
+		                                    ->produce();
 
-		$self->dbConfig = DBConfigsFactory::make()->produce();
+		$dbConfigs = static::$dbConfig;
 
-		$self->setDbConfigs($self->dbConfig);
+		$domainName = $dbConfigs->getConnectionName();
+
+		$configs = (new self())->createMock(Repository::class);
+
+		$configs->method('get')
+		        ->with('database.connections')
+		        ->willReturn([
+			        $domainName => $dbConfigs->toArray(),
+		        ]);
+
+		/** @noinspection PhpParamsInspection */
+		static::$configGetter = new GetLocalConfigs($configs);
 	}
 
 	/**
-	 * @param DBConfigs $dbConfigs
+	 *
 	 */
-	private function setDbConfigs (DBConfigs $dbConfigs) : void
-	{
-		\Config::set('database.connections.site', $dbConfigs->toArray());
-	}
-
 	public function testGetDbConfigByDomain () : void
 	{
-		$this->assertTrue(true);
+		$dbConfigs = static::$dbConfig;
+
+		$domainName = $dbConfigs->getConnectionName();
+
+		$retriedConfigs = static::$configGetter->getDbConfigByDomain($domainName);
+
+		$retriedConfigs->setConnectionName($domainName);
+
+		$this->assertEquals($retriedConfigs, $dbConfigs);
 	}
 }

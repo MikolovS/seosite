@@ -7,6 +7,7 @@ use App\Services\Config\lib\Exceptions\GetConfigException;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use App\Services\Config\lib\Items\DBConfigs;
 use App\Services\Config\lib\Mappers\DBConfigsMapper;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
 
 /**
@@ -21,12 +22,18 @@ class GetLocalConfigs implements ConfigGetter
 	protected $dbConfigMapper;
 
 	/**
-	 * GetConfigs constructor.
-	 * @param DBConfigsMapper $dbConfigMapper
+	 * @var Repository
 	 */
-	public function __construct (DBConfigsMapper $dbConfigMapper)
+	protected $config;
+
+	/**
+	 * GetConfigs constructor
+	 * @param Repository $config
+	 */
+	public function __construct (Repository $config)
 	{
-		$this->dbConfigMapper = $dbConfigMapper;
+		$this->dbConfigMapper = new DBConfigsMapper();
+		$this->config         = $config;
 	}
 
 	/**
@@ -34,7 +41,7 @@ class GetLocalConfigs implements ConfigGetter
 	 */
 	private function getSitesDbConfigs () : Collection
 	{
-		return collect(\Config::get('database.connections'));
+		return collect($this->config->get('database.connections'));
 	}
 
 	/**
@@ -64,7 +71,7 @@ class GetLocalConfigs implements ConfigGetter
 	 */
 	private function getLanguagesConfigs () : Collection
 	{
-		return collect(\Config::get('language.sites_languages'));
+		return collect($this->config->get('language.sites_languages'));
 	}
 
 	/**

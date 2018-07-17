@@ -14,13 +14,13 @@ return [
 
 	'sites_languages' => [
 		'ru'  => [
-			'formulalubvi.com',
+			'formulalubvi_com',
 		],
 		'esp' => [
-			'wnews.blog',
+			'wnews_blog',
 		],
 		'eng' => [
-			'wnews.us',
+			'wnews_us',
 		],
 	],
 ];

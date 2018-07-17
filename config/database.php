@@ -38,7 +38,7 @@ return [
 			#
 		],
 
-		'wnews.blog' => [
+		'wnews_blog' => [
 			'driver'      => 'mysql',
 			'host'        => '37.59.21.236',
 			'port'        => '3306',

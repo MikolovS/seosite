@@ -6,6 +6,7 @@ namespace App\Services\Config;
 use App\Services\Config\lib\Classes\GetLocalConfigs;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use App\Services\Config\lib\Items\DBConfigs;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -24,13 +25,17 @@ class ConfigService
 	 */
 	protected $configGetter;
 
+	protected $config;
+
 	/**
 	 * SiteConfigService constructor.
 	 * @param GetLocalConfigs $getConfigs
+	 * @param Repository      $config
 	 */
-	public function __construct (GetLocalConfigs $getConfigs)
+	public function __construct (GetLocalConfigs $getConfigs, Repository $config)
 	{
 		$this->configGetter = $getConfigs;
+		$this->config       = $config;
 	}
 
 	/**
@@ -46,7 +51,7 @@ class ConfigService
 	 */
 	public function setSiteDomain (Request $request) : void
 	{
-		$this->siteDomain = $request->getHttpHost();
+		$this->siteDomain = convertDomain($request->getHttpHost());
 	}
 
 	/**
@@ -54,7 +59,7 @@ class ConfigService
 	 */
 	private function setDbConnection (DBConfigs $siteConfigs) : void
 	{
-		\Config::set('database.connections.site', $siteConfigs->toArray());
+		$this->config->set('database.connections.site', $siteConfigs->toArray());
 	}
 
 	/**
