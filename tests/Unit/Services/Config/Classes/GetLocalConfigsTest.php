@@ -4,10 +4,10 @@ declare( strict_types = 1 );
 namespace Tests\Unit\Services\Config\Classes;
 
 use App\Services\Config\lib\Classes\GetLocalConfigs;
-use Faker\Factory;
 use Illuminate\Config\Repository;
 use Tests\TestCase;
 use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
+use Tests\Unit\Services\Config\Factories\DomainFactory;
 use Tests\Unit\Services\Config\Factories\LanguagesFactory;
 
 /**
@@ -17,21 +17,12 @@ use Tests\Unit\Services\Config\Factories\LanguagesFactory;
 class GetLocalConfigsTest extends TestCase
 {
 	/**
-	 *
-	 */
-	private function getDomain () : string
-	{
-		$domain = Factory::create()->domainName;
-
-		return convertDomain($domain);
-	}
-
-	/**
 	 * @group GetLocalConfigs
 	 */
 	public function testGetDbConfigByDomain () : void
 	{
-		$domain = $this->getDomain();
+		$domain = DomainFactory::make()
+		                       ->produce();
 
 		$dbConfigs = DBConfigsFactory::make()
 		                             ->produce();
@@ -55,7 +46,8 @@ class GetLocalConfigsTest extends TestCase
 	 */
 	public function testGetSiteLanguage () : void
 	{
-		$domain = $this->getDomain();
+		$domain = DomainFactory::make()
+		                       ->produce();
 
 		$languages = LanguagesFactory::make($domain)
 		                             ->produce();
@@ -66,7 +58,9 @@ class GetLocalConfigsTest extends TestCase
 					return true;
 			}
 			return false;
-		})->keys()->first();
+		})
+		                                     ->keys()
+		                                     ->first();
 
 		$configs = $this->createMock(Repository::class);
 

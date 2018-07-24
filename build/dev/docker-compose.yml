@@ -30,16 +30,28 @@ services:
       - 777:80
 
   # database
-  database:
-    image: postgres:10.1
+#  database:
+#    image: postgres:10.1
+#    networks:
+#      - backend
+#    environment:
+#      - POSTGRES_DB=seocms
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    ports:
+#      - 54327:5432
+
+  dbmysql:
+    image: mysql:5.7.21
     networks:
       - backend
     environment:
-      - POSTGRES_DB=seocms
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+        - MYSQL_DATABASE=wnews
+        - MYSQL_ROOT_PASSWORD=root_password
+        - MYSQL_USER=postgres
+        - MYSQL_PASSWORD=postgres
     ports:
-      - 54327:5432
+      - 3306:3306
 
   # adminer
   adminer:

@@ -7,7 +7,7 @@ use App\Services\Config\lib\Classes\GetLocalConfigs;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use App\Services\Config\lib\Items\DBConfigs;
 use Illuminate\Config\Repository;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ConfigService
@@ -25,6 +25,9 @@ class ConfigService
 	 */
 	protected $configGetter;
 
+	/**
+	 * @var Repository
+	 */
 	protected $config;
 
 	/**
