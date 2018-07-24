@@ -51,7 +51,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+    	$middleware = ['web'];
+
+    	if (\App::environment() !== 'local')
+		    $middleware[] = 'setSiteConfigs';
+
+        Route::middleware($middleware)
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }

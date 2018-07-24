@@ -44,9 +44,7 @@ class SetSiteConfigs
 	 */
 	private function setConfigs(Request $request) : void
 	{
-//		todo Delete
-//		$domainName = $request->getHttpHost();
-		$domainName = 'wnews_blog';
+		$domainName = $request->getHttpHost();
 
 		$this->configService->applySiteConfigs($domainName);
 	}
