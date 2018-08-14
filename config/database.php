@@ -14,7 +14,7 @@ return [
 	|
 	*/
 
-	'default' => env('DB_CONNECTION', 'site'),
+	'default' => env('DB_CONNECTION', 'seo_site'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -34,13 +34,13 @@ return [
 
 	'connections' => [
 
-		'site' => [
-			'driver'    => 'mysql',
-			'host'      => env('DB_HOST', 'localhost'),
-			'port'      => env('DB_PORT', '3306'),
-			'database'  => env('DB_DATABASE', 'forge'),
-			'username'  => env('DB_USERNAME', 'forge'),
-			'password'  => env('DB_PASSWORD', ''),
+		'seo_site' => [
+			'driver'    => 'pgsql',
+			'host'      => env('DB_HOST'),
+			'port'      => env('DB_PORT'),
+			'database'  => env('DB_DATABASE'),
+			'username'  => env('DB_USERNAME'),
+			'password'  => env('DB_PASSWORD'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -48,32 +48,30 @@ return [
 			'engine'    => null,
 		],
 
-		'wnews_blog' => [
-			'driver'      => 'mysql',
-			'host'        => '37.59.21.236',
-			'port'        => '3306',
-			'database'    => 'wnewsblog_db',
-			'username'    => 'wnewsblog_u',
-			'password'    => '2d7QkLRWPxBREU2F',
-			'unix_socket' => '',
-			'charset'     => 'utf8',
-			'collation'   => 'utf8_unicode_ci',
-			'prefix'      => '',
-			'strict'      => false,
-			'engine'      => null,
+		'wnews_fun' => [
+			'driver'    => 'pgsql',
+			'host'      => env('DB_HOST'),
+			'port'      => env('DB_PORT'),
+			'database'  => env('DB_DATABASE'),
+			'username'  => env('DB_USERNAME'),
+			'password'  => env('DB_PASSWORD'),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => true,
+			'engine'    => '',
 		],
 
-		'cms' => [
+		'dalscms' => [
 			'driver'   => 'pgsql',
-			'host'     => env('CMS_HOST'),
-			'port'     => env('CMS_PORT'),
-			'database' => env('CMS_DATABASE'),
-			'username' => env('CMS_USERNAME'),
-			'password' => env('CMS_PASSWORD'),
+			'host'     => env('CMS_DB_HOST', @gethostbyaddr($_SERVER[ 'REMOTE_ADDR' ] ?? '')),
+			'port'     => env('CMS_DB_PORT'),
+			'database' => env('CMS_DB_DATABASE'),
+			'username' => env('CMS_DB_USERNAME'),
+			'password' => env('CMS_DB_PASSWORD'),
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
-			'sslmode'  => 'prefer',
 		],
 
 	],

@@ -3,6 +3,7 @@ declare( strict_types = 1 );
 
 namespace App\Services\Config\lib\Classes;
 
+use App\Services\CacheService\CacheService;
 use App\Services\Config\lib\Exceptions\GetConfigException;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use App\Services\Config\lib\Items\DBConfigs;
@@ -27,12 +28,18 @@ class GetLocalConfigs implements ConfigGetter
 	protected $config;
 
 	/**
-	 * GetConfigs constructor
-	 * @param Repository $config
+	 * @var CacheService
 	 */
-	public function __construct (Repository $config)
+	protected $cache;
+
+	/**
+	 * GetConfigs constructor
+	 * @param Repository      $config
+	 * @param DBConfigsMapper $configsMapper
+	 */
+	public function __construct (Repository $config, DBConfigsMapper $configsMapper)
 	{
-		$this->dbConfigMapper = new DBConfigsMapper();
+		$this->dbConfigMapper = $configsMapper;
 		$this->config         = $config;
 	}
 
@@ -71,7 +78,7 @@ class GetLocalConfigs implements ConfigGetter
 	 */
 	private function getLanguagesConfigs () : Collection
 	{
-		return collect($this->config->get('language.sites_languages'));
+		return collect($this->config->get('site.languages'));
 	}
 
 	/**

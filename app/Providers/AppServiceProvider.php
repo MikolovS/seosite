@@ -1,9 +1,15 @@
 <?php
+declare( strict_types = 1 );
 
 namespace App\Providers;
 
+use App\Services\Config\ConfigService;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AppServiceProvider
+ * @package App\Providers
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+    	if (! isLocalEnvironment() && ! app()->runningInConsole())
+	        $this->app->make(ConfigService::class)->applySiteConfigs(\Request::getHttpHost());
     }
 
     /**

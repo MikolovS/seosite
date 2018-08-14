@@ -1,0 +1,60 @@
+@import '_vars.scss';
+
+.aside {
+  padding: 1em;
+  box-sizing: border-box;
+  .adv {
+    width: 100%;
+    height: 500px;
+    background: violet;
+    border: 1px solid black;
+  }
+  &__recommendations {
+    margin: 1em 0;
+    border: 1px solid #eee;
+    &-title {
+      display: block;
+      padding: 0.3em;
+      text-align: center;
+      font-size: 1.2em;
+      background-color: #eee;
+    }
+    &-article {
+      padding: 1em;
+      color: #212121;
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: 0.4s;
+        &:hover {
+          color: $red;
+        }
+      }
+      figure {
+        height: 150px;
+        max-width: 100%;
+        margin: 0;
+        background: no-repeat center center;
+        background-size: cover;
+        transition: 0.4s;
+      }
+      figcaption {
+        text-align: center;
+        h2 {
+          font-size: 18px;
+        }
+      }
+      &:hover {
+        figure {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+  &__widget {
+    margin: 1em 0;
+    > span {
+      border-radius: 0 !important;
+    }
+  }
+}

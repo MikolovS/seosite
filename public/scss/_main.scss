@@ -1,0 +1,106 @@
+main {
+  padding: 96px 0 0 0;
+  .category-row {
+    width: 100%;
+    float: left;
+    display: block;
+    margin: 1em 0;
+    .category-title {
+      display: block;
+      padding: 10px 0;
+      border-top: 1px solid #ccc;
+      font-size: 1.375em;
+      line-height: 1.375em;
+      &-name {
+        color: $red;
+      }
+      a {
+        float: right;
+        font-size: 0.663em;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: bold;
+        color: $red;
+        letter-spacing: norma;
+      }
+    }
+    .article {
+      display: block;
+      width: 50%;
+      float: left;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      overflow: hidden;
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      figure {
+        background: no-repeat center center;
+        background-size: cover;
+        width: 45%;
+        height: 100px;
+        float: left;
+        position: relative;
+        margin: 0 10px 0 0;
+      }
+      figcaption {
+        h2 {
+          margin: 0;
+          font-size: 1em;
+        }
+      }
+      &-fullwidth {
+        width: 100%;
+        figure {
+          height: 190px !important;
+        }
+        figcaption {
+          h2 {
+            font-size: 1.3em;
+          }
+        }
+      }
+      @media screen and (max-width: 991px) {
+        position: relative;
+        padding: 0;
+        border: none;
+        height: 150px;
+        &:nth-child(2) {
+          height: 200px;
+          border-bottom: 1px solid #fff;
+          figure {
+            height: 200px !important;
+          }
+        }
+        &:nth-child(3) {
+          border-right: 1px solid #fff;
+        }
+        figure {
+          width: 100%;
+          height: 150px;
+        }
+        figcaption {
+          position: absolute;
+          padding: 5px;
+          background: rgba(21, 21, 21, 0.7);
+          color: #fff;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          h2 {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+  aside {
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    padding: 50px 0 0 0;
+  }
+}

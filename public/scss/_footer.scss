@@ -1,0 +1,86 @@
+@import '_vars.scss';
+
+.footer {
+  color: #fff;
+  box-sizing: border-box;
+  text-align: center;
+  .container {
+    padding: 1rem;
+    background: #212121;
+  }
+  p {
+    margin: 0.5rem;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      color: $red;
+    }
+  }
+  &__socials {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    a {
+      display: block;
+      width: 40px;
+      height: 40px;
+      line-height: 44px;
+      text-decoration: none;
+      font-size: 1.25em;
+      transition: 0.4s;
+      &:hover {
+        color: #fff;
+        border-radius: 50%;
+      }
+    }
+    &-facebook > a {
+      color: $facebook;
+      &:hover {
+        background: $facebook;
+      }
+    }
+    &-twitter > a {
+      color: $twitter;
+      &:hover {
+        background: $twitter;
+      }
+    }
+    &-instagram > a {
+      color: $instagram;
+      &:hover {
+        background: $instagram;
+      }
+    }
+    &-pinterest > a {
+      color: $pinterest;
+      &:hover {
+        background: $pinterest;
+      }
+    }
+    &-gplus > a {
+      color: $gplus;
+      &:hover {
+        background: $gplus;
+      }
+    }
+  }
+  &__service {
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      a {
+        padding: 0.5rem;
+        display: block;
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 namespace Tests\Unit\Services\Config\Classes;
 
 use App\Services\Config\lib\Classes\GetLocalConfigs;
+use App\Services\Config\lib\Mappers\DBConfigsMapper;
 use Illuminate\Config\Repository;
 use Tests\TestCase;
 use Tests\Unit\Services\Config\Factories\DBConfigsFactory;
@@ -36,7 +37,7 @@ class GetLocalConfigsTest extends TestCase
 		        ]);
 
 		/** @noinspection PhpParamsInspection */
-		$retriedConfigs = ( new GetLocalConfigs($configs) )->getDbConfigByDomain($domain);
+		$retriedConfigs = ( new GetLocalConfigs($configs, new DBConfigsMapper()) )->getDbConfigByDomain($domain);
 
 		$this->assertEquals($retriedConfigs, $dbConfigs);
 	}
@@ -65,11 +66,11 @@ class GetLocalConfigsTest extends TestCase
 		$configs = $this->createMock(Repository::class);
 
 		$configs->method('get')
-		        ->with('language.sites_languages')
+		        ->with('site.languages')
 		        ->willReturn($languages);
 
 		/** @noinspection PhpParamsInspection */
-		$retrievedLanguage = ( new GetLocalConfigs($configs) )->getSiteLanguage($domain);
+		$retrievedLanguage = ( new GetLocalConfigs($configs, new DBConfigsMapper()) )->getSiteLanguage($domain);
 
 		$this->assertEquals($retrievedLanguage, $domainLanguage);
 	}

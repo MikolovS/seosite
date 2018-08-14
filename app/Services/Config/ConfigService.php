@@ -7,7 +7,6 @@ use App\Services\Config\lib\Classes\GetLocalConfigs;
 use App\Services\Config\lib\Interfaces\ConfigGetter;
 use App\Services\Config\lib\Items\DBConfigs;
 use Illuminate\Config\Repository;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ConfigService
@@ -50,11 +49,11 @@ class ConfigService
 	}
 
 	/**
-	 * @param Request $request
+	 * @param string $domain
 	 */
-	public function setSiteDomain (Request $request) : void
+	public function setSiteDomain (string $domain) : void
 	{
-		$this->siteDomain = convertDomain($request->getHttpHost());
+		$this->siteDomain = convertDomain($domain);
 	}
 
 	/**
@@ -62,7 +61,22 @@ class ConfigService
 	 */
 	private function setDbConnection (DBConfigs $siteConfigs) : void
 	{
-		$this->config->set('database.connections.site', $siteConfigs->toArray());
+		$this->config->set('database.connections.seo_site', $siteConfigs->toArray());
+	}
+
+	/**
+	 * Set app name (siteName)
+	 */
+	private function setAppName () : void
+	{
+		$nameParts = explode('_', $this->getSiteDomain());
+
+		foreach ($nameParts as $key => $namePart)
+			$nameParts[$key] = ucfirst($namePart);
+
+		$appName = implode(' ', $nameParts);
+
+		$this->config->set('app.name', $appName);
 	}
 
 	/**
@@ -74,15 +88,19 @@ class ConfigService
 	}
 
 	/**
-	 * @param string $domainName
+	 * @param string $domain
 	 */
-	public function applySiteConfigs (string $domainName) : void
+	public function applySiteConfigs (string $domain) : void
 	{
-		$dbConfigs = $this->configGetter->getDbConfigByDomain($domainName);
+		$this->setSiteDomain($domain);
+
+		$dbConfigs = $this->configGetter->getDbConfigByDomain($this->getSiteDomain());
 
 		$this->setDbConnection($dbConfigs);
 
-		$language = $this->configGetter->getSiteLanguage($domainName);
+		$language = $this->configGetter->getSiteLanguage($this->getSiteDomain());
 		$this->setLocal($language);
+
+		$this->setAppName();
 	}
 }

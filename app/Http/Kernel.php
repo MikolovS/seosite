@@ -4,8 +4,8 @@ declare( strict_types = 1 );
 namespace App\Http;
 
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\PostPageMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\SetSiteConfigs;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
@@ -70,6 +70,6 @@ class Kernel extends HttpKernel
 		'guest'          => RedirectIfAuthenticated::class,
 		'signed'         => \Illuminate\Routing\Middleware\ValidateSignature::class,
 		'throttle'       => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-		'setSiteConfigs' => SetSiteConfigs::class,
+		'postPage'       => PostPageMiddleware::class,
 	];
 }

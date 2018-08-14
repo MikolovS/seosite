@@ -1,0 +1,99 @@
+@import '_vars.scss';
+.authors-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  min-height: 80vh;
+  &__author {
+      text-align: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    //   border: 1px solid #eee;
+      margin: 0.5rem 0;
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+  }
+}
+.author {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 1em 0;
+  border-bottom: 1px solid #eee;
+  &-contacts {
+    max-width: 300px;
+    text-align: center;
+    font-size: 14px;
+    p {
+      margin: 0.5rem 0;
+    }
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+  }
+  &-info {
+    width: 100%;
+    padding-left: 1.5em;
+    box-sizing: border-box;
+    p {
+      margin: 0.5rem 0;
+    }
+    .position {
+      font-size: 14px;
+    }
+    .name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .bio {
+      font-weight: bold;
+    }
+  }
+  &-bio {
+    color: #212121;
+    font-size: 14px;
+  }
+  &-socials {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
+    li {
+      display: inline-block;
+      a {
+        display: block;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 50%;
+      }
+    }
+  }
+  &-button {
+    max-width: 300px;
+    display: block;
+    background: $red;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    text-align: center;
+    transition: 0.1s ease-in;
+    &:hover {
+      color: #fff;
+      background: lighten($red, 10%);
+    }
+  }
+  @media screen and (max-width: 991px) {
+    &-contacts {
+      width: 100px;
+      img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+.breadcrumb {
+  list-style: none;
+  border-bottom: 1px solid #eee;
+  margin: 0;
+  padding: 1em 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  li {
+    display: inline-block;
+    &:after {
+      content: '\0020\002F';
+    }
+    &:last-child:after {
+      content: '';
+    }
+    a {
+      padding: 14px 10px;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    border: 1px solid #eee;
+    border-width: 1px 0 1px 0;
+  }
+}
+.article {
+  figure {
+    max-width: 100%;
+    img {
+      max-width: 100%;
+    }
+    figcaption {
+      display: block;
+      font-style: italic;
+    }
+  }
+  footer {
+    div {
+      margin: 1em 0;
+    }
+    .comma-list {
+      margin: 1em 0;
+      padding: 0;
+      list-style: none;
+      display: inline;
+      li {
+        display: inline;
+        &:after {
+          content: '\002C\0020';
+        }
+        &:last-child:after {
+          content: '';
+        }
+      }
+    }
+  }
+}

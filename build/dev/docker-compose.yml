@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
 
   # application (code)
@@ -12,8 +12,8 @@ services:
     networks:
       - backend
     environment:
-      - DB_PORT=3306
-      - DB_HOST=dbmysql
+      - DB_PORT=5432
+      - DB_HOST=database
       - RHOST=redis
 
   # http server
@@ -22,36 +22,24 @@ services:
       context: ./
       dockerfile: web.dockerfile
     working_dir: /app
+    volumes_from:
+      - app
     networks:
       - backend
-#    volumes_from:
-#      - app
     ports:
       - 777:80
 
-  # database
-#  database:
-#    image: postgres:10.1
-#    networks:
-#      - backend
-#    environment:
-#      - POSTGRES_DB=seocms
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    ports:
-#      - 54327:5432
-
-  dbmysql:
-    image: mysql:5.7.21
+#   database
+  database:
+    image: postgres:10.1
     networks:
       - backend
     environment:
-        - MYSQL_DATABASE=wnews
-        - MYSQL_ROOT_PASSWORD=root_password
-        - MYSQL_USER=postgres
-        - MYSQL_PASSWORD=postgres
+      - POSTGRES_DB=seo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - 3306:3306
+      - 54327:5432
 
   # adminer
   adminer:
@@ -77,6 +65,8 @@ services:
     build:
       context: ./
       dockerfile: cron.dockerfile
+    volumes_from:
+      - app
     networks:
       - backend
 

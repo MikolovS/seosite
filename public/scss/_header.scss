@@ -1,0 +1,212 @@
+@import '_vars.scss';
+
+header {
+  width: 100%;
+  position: fixed;
+  z-index: 5;
+}
+.header {
+  padding: 5px 0;
+  &__hero {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    @media screen and (max-width: 991px) {
+      justify-content: center;
+    }
+  }
+  &__logo {
+    img {
+      width: 150px;
+    }
+  }
+  &__socials {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    a {
+      display: block;
+      width: 40px;
+      height: 40px;
+      line-height: 44px;
+      text-decoration: none;
+      font-size: 1.25em;
+      transition: 0.4s;
+      &:hover {
+        color: #fff;
+        border-radius: 50%;
+      }
+    }
+    &-facebook > a {
+      color: $facebook;
+      &:hover {
+        background: $facebook;
+      }
+    }
+    &-twitter > a {
+      color: $twitter;
+      &:hover {
+        background: $twitter;
+      }
+    }
+    &-instagram > a {
+      color: $instagram;
+      &:hover {
+        background: $instagram;
+      }
+    }
+    &-pinterest > a {
+      color: $pinterest;
+      &:hover {
+        background: $pinterest;
+      }
+    }
+    &-gplus > a {
+      color: $gplus;
+      &:hover {
+        background: $gplus;
+      }
+    }
+  }
+  &__nav {
+    ul {
+      margin: 0;
+      padding: 0;
+      border: 1px solid $grey;
+      border-width: 1px 0 1px 0;
+    }
+    > ul li:hover {
+      background: $red;
+    }
+    &-dropdown {
+      display: inline-block;
+      position: relative;
+      &:hover {
+        ul {
+          display: block;
+        }
+      }
+      ul {
+        display: none;
+        position: absolute;
+        list-style: none;
+        z-index: 1;
+        background: #fff;
+        box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25);
+        border: none;
+        li {
+          padding: 0 10px;
+          position: relative;
+          ul {
+            width: 200px;
+            border: none;
+            display: none !important;
+          }
+          &:hover {
+            ul {
+              display: block !important;
+              top: 0;
+              right: -200px;
+            }
+          }
+        }
+      }
+    }
+    a {
+      display: block;
+      padding: 14px 10px;
+      box-sizing: border-box;
+      text-decoration: none;
+      color: inherit;
+      font-weight: semi-bold;
+      &:hover {
+        color: inherit;
+      }
+    }
+  }
+  &__menu-button {
+    position: absolute;
+    left: 15px;
+    background: transparent;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+.animated.slideDown {
+  animation: slideDown .3s forwards;
+}
+
+.animated.slideUp {
+  animation: slideUp .3s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+#mobile-menu {
+  position: absolute;
+  width: 100%;
+  top: 47px;
+  left: 0;
+  height: 100vh;
+  background: rgba(#212121, .98);
+  z-index: 5;
+  overflow: auto;
+  display: none;
+  ul {
+    margin: 0;
+    list-style: none;
+    padding: 1em;
+    color: #fff;
+    li {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      ul {
+        display: none;
+        width: 100%;
+        flex-shrink: 0;
+        padding: 5px 10px;
+        li {
+          font-weight: normal;
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 990px) {
+    display: none !important;
+  }
+}
